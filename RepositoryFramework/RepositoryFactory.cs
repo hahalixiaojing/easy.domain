@@ -14,31 +14,9 @@ namespace Easy.Domain.RepositoryFramework
     public class RepositoryFactory
     {
         private IDictionary<String, IDao> repositories = new SortedDictionary<String, IDao>();
-        public RepositoryFactory(FileInfo fileInfo)
+        public RepositoryFactory(XPathNavigator navi)
         {
-            var navi = this.CreateXpathNavi(fileInfo);
             this.Load(navi);
-        }
-        public RepositoryFactory(Stream stream)
-        {
-            var navi = this.CreateXpathNavi(stream);
-            this.Load(navi);
-        }
-        private XPathNavigator CreateXpathNavi(FileInfo fileInfo)
-        {
-            if (!fileInfo.Exists)
-            {
-                throw new FileNotFoundException(fileInfo.FullName);
-            }
-            XPathDocument doc = new XPathDocument(fileInfo.FullName);
-            XPathNavigator navigator = doc.CreateNavigator();
-            return navigator;
-        }
-        private XPathNavigator CreateXpathNavi(Stream stream)
-        {
-            XPathDocument doc = new XPathDocument(stream);
-            XPathNavigator navigator = doc.CreateNavigator();
-            return navigator;
         }
         private void Load(XPathNavigator navigator) 
         {

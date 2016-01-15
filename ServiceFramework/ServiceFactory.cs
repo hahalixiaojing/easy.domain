@@ -13,31 +13,10 @@ namespace Easy.Domain.ServiceFramework
     {
         private IDictionary<String, IService> services = new Dictionary<String, IService>();
 
-        public ServiceFactory(FileInfo fileInfo)
+
+        public ServiceFactory(XPathNavigator navigator)
         {
-            var navi = this.CreateXpathNavi(fileInfo);
-            this.Load(navi);
-        }
-        public ServiceFactory(Stream stream)
-        {
-            var navi = this.CreateXpathNavi(stream);
-            this.Load(navi);
-        }
-        private XPathNavigator CreateXpathNavi(FileInfo fileInfo)
-        {
-            if (!fileInfo.Exists)
-            {
-                throw new FileNotFoundException(fileInfo.FullName);
-            }
-            XPathDocument doc = new XPathDocument(fileInfo.FullName);
-            XPathNavigator navigator = doc.CreateNavigator();
-            return navigator;
-        }
-        private XPathNavigator CreateXpathNavi(Stream stream)
-        {
-            XPathDocument doc = new XPathDocument(stream);
-            XPathNavigator navigator = doc.CreateNavigator();
-            return navigator;
+            this.Load(navigator);
         }
 
         private void Load(XPathNavigator navigator) 

@@ -1,21 +1,36 @@
-﻿using System;
+﻿using Easy.Domain.RepositoryFramework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Easy.Domain.ServiceFramework
 {
 
-    public class ServiceFactoryBuilder
+    public class ServiceFactoryBuilder: BaseFactoryBuilder
     {
         public ServiceFactory Build(FileInfo fileinfo)
         {
-            return new ServiceFactory(fileinfo);
+            if (!fileinfo.Exists)
+            {
+                throw new FileNotFoundException(fileinfo.FullName);
+            }
+            var navi = CreateXpathNavi(fileinfo);
+            return new ServiceFactory(navi);
         }
         public ServiceFactory Build(Stream stream)
         {
-            return new ServiceFactory(stream);
+            var navi = CreateXpathNavi(stream);
+            return new ServiceFactory(navi);
+        }
+        public ServiceFactory Build(string embedFile)
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            Stream stream = assembly.GetManifestResourceStream(embedFile);
+            var navi = CreateXpathNavi(stream);
+            return new ServiceFactory(navi);
         }
     }
 }
