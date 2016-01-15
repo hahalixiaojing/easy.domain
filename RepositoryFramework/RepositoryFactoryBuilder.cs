@@ -10,7 +10,7 @@ namespace Easy.Domain.RepositoryFramework
 {
     public class RepositoryFactoryBuilder : BaseFactoryBuilder
     {
-        public RepositoryFactory  Build(FileInfo fileinfo)
+        public RepositoryFactory Build(FileInfo fileinfo)
         {
             if (!fileinfo.Exists)
             {
@@ -22,14 +22,6 @@ namespace Easy.Domain.RepositoryFramework
         }
         public  RepositoryFactory Build(Stream stream)
         {
-            var navi = CreateXpathNavi(stream);
-            return new RepositoryFactory(navi);
-        }
-
-        public RepositoryFactory Build(string embedFile)
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream(embedFile);
             var navi = CreateXpathNavi(stream);
             return new RepositoryFactory(navi);
         }

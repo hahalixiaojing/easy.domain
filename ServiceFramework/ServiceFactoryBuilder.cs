@@ -25,12 +25,5 @@ namespace Easy.Domain.ServiceFramework
             var navi = CreateXpathNavi(stream);
             return new ServiceFactory(navi);
         }
-        public ServiceFactory Build(string embedFile)
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream stream = assembly.GetManifestResourceStream(embedFile);
-            var navi = CreateXpathNavi(stream);
-            return new ServiceFactory(navi);
-        }
     }
 }
