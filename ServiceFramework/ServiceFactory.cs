@@ -15,18 +15,33 @@ namespace Easy.Domain.ServiceFramework
 
         public ServiceFactory(FileInfo fileInfo)
         {
-            this.Load(fileInfo);
+            var navi = this.CreateXpathNavi(fileInfo);
+            this.Load(navi);
         }
-
-        private void Load(FileInfo fileInfo) 
+        public ServiceFactory(Stream stream)
+        {
+            var navi = this.CreateXpathNavi(stream);
+            this.Load(navi);
+        }
+        private XPathNavigator CreateXpathNavi(FileInfo fileInfo)
         {
             if (!fileInfo.Exists)
             {
-                throw new FileNotFoundException("未能找到文件" + fileInfo.FullName);
+                throw new FileNotFoundException(fileInfo.FullName);
             }
             XPathDocument doc = new XPathDocument(fileInfo.FullName);
             XPathNavigator navigator = doc.CreateNavigator();
+            return navigator;
+        }
+        private XPathNavigator CreateXpathNavi(Stream stream)
+        {
+            XPathDocument doc = new XPathDocument(stream);
+            XPathNavigator navigator = doc.CreateNavigator();
+            return navigator;
+        }
 
+        private void Load(XPathNavigator navigator) 
+        {
             XmlNamespaceManager namespaceManager = new XmlNamespaceManager(navigator.NameTable); //namespace   
             namespaceManager.AddNamespace("abc", "http://www.39541240.com/services");
             namespaceManager.AddNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");

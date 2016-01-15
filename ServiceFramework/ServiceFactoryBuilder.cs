@@ -13,5 +13,9 @@ namespace Easy.Domain.ServiceFramework
         {
             return new ServiceFactory(fileinfo);
         }
+        public ServiceFactory Build(Stream stream)
+        {
+            return new ServiceFactory(stream);
+        }
     }
 }

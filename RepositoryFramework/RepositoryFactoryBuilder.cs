@@ -12,5 +12,9 @@ namespace Easy.Domain.RepositoryFramework
         {
             return new RepositoryFactory(fileinfo);
         }
+        public RepositoryFactory Build(Stream stream)
+        {
+            return new RepositoryFactory(stream);
+        }
     }
 }
