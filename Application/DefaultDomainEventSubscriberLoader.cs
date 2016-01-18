@@ -26,6 +26,8 @@ namespace Easy.Domain.Application
 
                 IEnumerable<ISubscriber> types = type.Assembly.GetTypes().Where(a => a.FullName.Contains(@namespace)).Select(t => Activator.CreateInstance(t) as ISubscriber).Where(o => o != null);
 
+
+
                 returns.Add(mName, types);
             }
             return returns;

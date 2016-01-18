@@ -17,5 +17,10 @@ namespace Easy.Domain.Application
         {
             return "not found error" + context.SystemId + ":" + context.Version;
         }
+
+        public int Order
+        {
+            get { return Int32.MinValue; }
+        }
     }
 }

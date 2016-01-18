@@ -20,7 +20,7 @@ namespace Easy.Domain.Application
          
         public dynamic Result(ReturnContext context)
         {
-            IReturnTransformer value = transformer.SingleOrDefault(m => m.IsMapped(context));
+            IReturnTransformer value = transformer.FirstOrDefault(m => m.IsMapped(context));
             if (value == null)
             {
                 return notFound.GetValue(context, null);
