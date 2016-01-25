@@ -13,7 +13,7 @@ namespace Easy.Domain.Application
         {
             Type type = application.GetType();
 
-            IEnumerable<MethodInfo> methods = type.GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            IEnumerable<MethodInfo> methods = type.GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance).Where(m => m.ReturnType == typeof(IReturn));
 
             String name = type.Name.Substring(0, type.Name.LastIndexOf("Application"));
 
