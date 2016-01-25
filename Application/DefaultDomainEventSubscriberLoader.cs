@@ -10,12 +10,16 @@ namespace Easy.Domain.Application
 {
     public class DefaultDomainEventSubscriberLoader : IDomainEventSubscriberLoader
     {
+        public readonly string[] excludeMethods = { "RegisterReturnTransformer", "RegisterDomainEvents", "RegisterReturnTransformer", "RegisterDomainEvent" };
+
+
         public IDictionary<string, IEnumerable<ISubscriber>> Find(IApplication application)
         {
             Type type = application.GetType();
 
-            IEnumerable<MethodInfo> methods = type.GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-
+            IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                .Where(m => !excludeMethods.Contains(m.Name));
+            
             String name = type.Name.Substring(0, type.Name.LastIndexOf("Application"));
 
             var returns = new Dictionary<String, IEnumerable<ISubscriber>>();
