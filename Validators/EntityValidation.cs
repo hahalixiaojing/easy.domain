@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Easy.Domain.Validators
 {
@@ -137,6 +138,52 @@ namespace Easy.Domain.Validators
             }
 
             return propertyIsValid && classIsValid;
+        }
+
+        public virtual async Task<bool> IsSatisfyAsync(Model model)
+        {
+            var validateList = this.propertyValidates.Select(t =>
+            {
+                return new Task<ErrorKeys>(() =>
+                {
+                    foreach (var validateItem in t.Value)
+                    {
+                        if (!validateItem.Validate.IsSatisfy(model))
+                        {
+                            return new ErrorKeys() { MessageKey = validateItem.MessageKey, GroupKey = t.Key };
+                        }
+                    }
+                    return null;
+                });
+            }).Concat(this.classValidates.Select(ct =>
+            {
+                return new Task<ErrorKeys>(() =>
+                {
+                    if (!ct.Validate.IsSatisfy(model))
+                    {
+                        return new ErrorKeys() { MessageKey = ct.MessageKey };
+                    }
+                    return null;
+                });
+            }));
+
+            var taskList = validateList.Select(m => { m.Start(); return m; });
+            var resultList = await Task.WhenAll(taskList);
+
+            return resultList.Count(m =>
+            {
+                if (m != null)
+                {
+                    model.AddBrokenRule(m.MessageKey, m.GroupKey);
+                }
+                ; return m == null;
+            }) == resultList.Count();
+        }
+
+        class ErrorKeys
+        {
+            public string MessageKey;
+            public string GroupKey;
         }
     }
 }
