@@ -29,10 +29,10 @@ namespace Easy.Domain.Application
                 string @namespace = type.Namespace + "." + name + "." + mName + "DomainEvents" + ".";
 
                 IEnumerable<ISubscriber> types = type.Assembly.GetTypes().Where(a => a.FullName.Contains(@namespace)).Select(t => Activator.CreateInstance(t) as ISubscriber).Where(o => o != null);
-
-
-
-                returns.Add(mName, types);
+                if (types.Count() > 0)
+                {
+                    returns.Add(mName, types);
+                }
             }
             return returns;
         }
