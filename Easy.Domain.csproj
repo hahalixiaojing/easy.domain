@@ -58,6 +58,7 @@
     <Compile Include="Application\ReturnContext.cs" />
     <Compile Include="BaseFactoryBuilder.cs" />
     <Compile Include="Base\BrokenRule.cs" />
+    <Compile Include="Base\BrokenRuleException.cs" />
     <Compile Include="Base\BrokenRuleObject.cs" />
     <Compile Include="Base\BrokenRuleMessage.cs" />
     <Compile Include="Base\EmptyBrokenRule.cs" />
