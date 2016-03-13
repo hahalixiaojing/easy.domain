@@ -140,7 +140,7 @@ namespace Easy.Domain.Validators
             return propertyIsValid && classIsValid;
         }
 
-        public virtual async Task<bool> IsSatisfyAsync(Model model)
+        public virtual async Task<bool> IsSatisfyAsParallel(Model model)
         {
             var validateList = this.propertyValidates.Select(t =>
             {
