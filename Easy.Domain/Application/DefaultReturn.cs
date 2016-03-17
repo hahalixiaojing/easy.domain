@@ -28,9 +28,14 @@ namespace Easy.Domain.Application
             return value.GetValue(context, this.obj);
         }
 
-        public INewReturnTransformer<T> GetReturnTransformer(ReturnContext context)
+        public INewReturnTransformer<RESULT> GetReturnTransformer<RESULT>(ReturnContext context)
         {
-            return transformer.FirstOrDefault(m => m.IsMapped(context)) as INewReturnTransformer<T>;
+            return transformer.FirstOrDefault(m => m.IsMapped(context)) as INewReturnTransformer<RESULT>;
+        }
+
+        public RESULT Result<RESULT>(INewReturnTransformer<RESULT> transformer, IReturn @return)
+        {
+            return transformer.GetValue(null, (@return as DefaultReturn<T>).obj);
         }
     }
 }

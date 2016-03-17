@@ -96,12 +96,6 @@
     <Compile Include="Validators\ValidateItem.cs" />
     <Compile Include="Validators\Validators.cs" />
     <Compile Include="Validators\LessThanValidate.cs" />
-    <Compile Include="ZTest\Application\ApplicationTest.cs" />
-    <Compile Include="ZTest\Application\Demo.FindById\Demo1ReturnTransformer.cs" />
-    <Compile Include="ZTest\Application\Demo.FindById\Demo2ReturnTransformer.cs" />
-    <Compile Include="ZTest\Application\DemoApplication.cs" />
-    <Compile Include="ZTest\Application\DemoModel1.cs" />
-    <Compile Include="ZTest\Application\DemoModel2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
