@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\ApplicationFactory.cs" />
+    <Compile Include="Application\ApplicationFactoryBuilder.cs" />
     <Compile Include="Application\BaseApplication.cs" />
     <Compile Include="Application\DefaultReturn.cs" />
     <Compile Include="Application\DefaultReturnTransformerLoader.cs" />
@@ -99,6 +100,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Application.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Repositories.xsd">
       <SubType>Designer</SubType>
     </None>
