@@ -20,25 +20,36 @@ namespace Easy.Domain.Application
                 throw new FileNotFoundException(fileinfo.FullName);
             }
             var navi = CreateXpathNavi(fileinfo);
+            var applications = Load(navi);
+            foreach (var item in applications)
+            {
+                ApplicationFactory.Instance().RegisterByInterface(item.Value, item.Key);
+            }
 
             return ApplicationFactory.Instance();
         }
         public ApplicationFactory Build(Stream stream)
         {
             var navi = CreateXpathNavi(stream);
-
+            var applications = Load(navi);
+            foreach (var item in applications)
+            {
+                ApplicationFactory.Instance().RegisterByInterface(item.Value, item.Key);
+            }
             return ApplicationFactory.Instance();
         }
 
-        private void Load(XPathNavigator navigator)
+        private Dictionary<string, IApplication> Load(XPathNavigator navigator)
         {
             XmlNamespaceManager namespaceManager = new XmlNamespaceManager(navigator.NameTable);
-            namespaceManager.AddNamespace("abc", "http://www.39541240.com/application");
+            namespaceManager.AddNamespace("abc", "http://www.39541240.com/applications");
             namespaceManager.AddNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
             Boolean global_enable_interceptor = Convert.ToBoolean(ConfigurationManager.AppSettings["global_enable_interceptor"] ?? "true");
 
-            XPathNodeIterator it = navigator.Select("abc:applicaitons/abc:application", namespaceManager);
+            Dictionary<string, IApplication> applications = new Dictionary<string, IApplication>();
+
+            XPathNodeIterator it = navigator.Select("abc:applications/abc:application", namespaceManager);
             foreach (XPathNavigator navi in it)
             {
                 String interfaceName = navi.GetAttribute("interface", "");
@@ -67,8 +78,9 @@ namespace Easy.Domain.Application
                 {
                     throw new NullReferenceException("application is null");
                 }
-
+                applications.Add(interfaceType.FullName.ToUpper(), application);
             }
+            return applications;
         }
     }
 }

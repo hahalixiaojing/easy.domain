@@ -45,8 +45,34 @@ namespace Easy.Domain.Application
         public void Register(IApplication application)
         {
             BaseApplication baseApplication = application as BaseApplication;
+            this.RegisterReturnTransformer(baseApplication);
+            this.RegisterDomainEventSubscriber(baseApplication);
+            applicationService.Add(application.GetType().FullName.ToUpper(), application);
+        }
 
-            IDictionary<string, IEnumerable<IReturnTransformer>> transformers = returnTransfomerLoader.Find(application);
+        internal void RegisterByInterface(IApplication application, string interfaceTypeFullName)
+        {
+            BaseApplication baseApplication = application as BaseApplication;
+            this.RegisterReturnTransformer(baseApplication);
+            this.RegisterDomainEventSubscriber(baseApplication);
+
+            applicationService.Add(interfaceTypeFullName.ToUpper(), application);
+        }
+
+        private void RegisterDomainEventSubscriber(BaseApplication application)
+        {
+            var domainEvents = domainEventSubscriberLoader.Find(application);
+            foreach (KeyValuePair<String, IEnumerable<ISubscriber>> keypair in domainEvents)
+            {
+                foreach (var item in keypair.Value)
+                {
+                    application.RegisterDomainEvent(keypair.Key, item);
+                }
+            }
+        }
+        private void RegisterReturnTransformer(BaseApplication baseApplication)
+        {
+            var transformers = returnTransfomerLoader.Find(baseApplication);
             foreach (KeyValuePair<string, IEnumerable<IReturnTransformer>> keypair in transformers)
             {
                 foreach (var item in keypair.Value)
@@ -54,20 +80,6 @@ namespace Easy.Domain.Application
                     baseApplication.RegisterReturnTransformer(keypair.Key, item);
                 }
             }
-
-            IDictionary<string, IEnumerable<ISubscriber>> domainEvents = domainEventSubscriberLoader.Find(application);
-
-            foreach (KeyValuePair<String, IEnumerable<ISubscriber>> keypair in domainEvents)
-            {
-                foreach (var item in keypair.Value)
-                {
-                    baseApplication.RegisterDomainEvent(keypair.Key, item);
-                }
-            }
-
-
-            applicationService.Add(application.GetType().FullName.ToUpper(), application);
-
         }
         /// <summary>
         /// 获得应用服务
@@ -78,6 +90,20 @@ namespace Easy.Domain.Application
         {
             string fullName = typeof(T).FullName.ToUpper();
 
+            if (applicationService.ContainsKey(fullName))
+            {
+                return applicationService[fullName] as T;
+            }
+            return null;
+        }
+        /// <summary>
+        /// 根据接口类型，获得应用程序
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T GetByInterface<T>() where T : class
+        {
+            string fullName = typeof(T).FullName.ToUpper();
             if (applicationService.ContainsKey(fullName))
             {
                 return applicationService[fullName] as T;

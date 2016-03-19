@@ -60,15 +60,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\ApplicationFactoryBuilderTest.cs" />
     <Compile Include="Application\ApplicationTest.cs" />
     <Compile Include="Application\Demo.FindById\Demo1ReturnTransformer.cs" />
     <Compile Include="Application\Demo.FindById\Demo2ReturnTransformer.cs" />
+    <Compile Include="Application\Demo2.Select\Demo2SelectReturnTransformer.cs" />
+    <Compile Include="Application\Demo2Application.cs" />
     <Compile Include="Application\DemoApplication.cs" />
     <Compile Include="Application\DemoModel1.cs" />
     <Compile Include="Application\DemoModel2.cs" />
+    <Compile Include="Application\IDemo2Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Application\application.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
