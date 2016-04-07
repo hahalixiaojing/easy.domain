@@ -62,6 +62,8 @@
   <ItemGroup>
     <Compile Include="Application\ApplicationFactoryBuilderTest.cs" />
     <Compile Include="Application\ApplicationTest.cs" />
+    <Compile Include="Application\Demo.FindByIdDomainEvents\DemoDomainEvent.cs" />
+    <Compile Include="Application\Demo.FindByIdDomainEvents\DemoSubscriber.cs" />
     <Compile Include="Application\Demo.FindById\Demo1ReturnTransformer.cs" />
     <Compile Include="Application\Demo.FindById\Demo2ReturnTransformer.cs" />
     <Compile Include="Application\Demo2.Select\Demo2SelectReturnTransformer.cs" />
