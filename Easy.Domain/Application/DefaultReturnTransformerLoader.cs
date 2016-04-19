@@ -23,7 +23,7 @@ namespace Easy.Domain.Application
                 string mName = m.Name;
                 string @namespace = type.Namespace + "." + name + "." + mName + ".";
 
-                IEnumerable<IReturnTransformer> types = type.Assembly.GetTypes().Where(a => a.FullName.Contains(@namespace)).Select(t => Activator.CreateInstance(t) as IReturnTransformer).Where(o => o != null).OrderByDescending(s => s.Order);
+                IEnumerable<IReturnTransformer> types = type.Assembly.GetTypes().Where(a => a.FullName.Contains(@namespace) && !a.IsAbstract).Select(t => Activator.CreateInstance(t) as IReturnTransformer).Where(o => o != null).OrderByDescending(s => s.Order);
 
                 returns.Add(mName, types);
             }
