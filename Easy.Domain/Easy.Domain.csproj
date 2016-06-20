@@ -51,6 +51,7 @@
     <Compile Include="Application\DefaultReturnTransformerLoader.cs" />
     <Compile Include="Application\DefaultDomainEventSubscriberLoader.cs" />
     <Compile Include="Application\IApplication.cs" />
+    <Compile Include="Application\IDomainEventManager.cs" />
     <Compile Include="Application\IDomainEventSubscriberLoader.cs" />
     <Compile Include="Application\INewReturnTransformer.cs" />
     <Compile Include="Application\IReturn.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Application\IReturnTransformerLoader.cs" />
     <Compile Include="Application\NotFoundReturnTransformer.cs" />
     <Compile Include="Application\ReturnContext.cs" />
+    <Compile Include="Application\TaskDomainEventManager.cs" />
     <Compile Include="BaseFactoryBuilder.cs" />
     <Compile Include="Base\BrokenRule.cs" />
     <Compile Include="Base\BrokenRuleException.cs" />

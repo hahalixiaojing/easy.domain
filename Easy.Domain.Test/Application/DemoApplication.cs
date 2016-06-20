@@ -11,7 +11,7 @@ namespace Easy.Domain.Test.Application
     {
         public IReturn FindById()
         {
-            return this.Write("FindById", "data");
+            return this.WriteAndPublishDomainEvent("FindById", "data", new Demo.FindByIdDomainEvents.DemoDomainEvent("aa"));
         }
     }
 }

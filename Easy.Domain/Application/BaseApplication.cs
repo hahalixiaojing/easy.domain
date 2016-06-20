@@ -10,17 +10,17 @@ namespace Easy.Domain.Application
     public abstract class BaseApplication : IApplication
     {
         private readonly IDictionary<String, IList<IReturnTransformer>> TRANSFORMER = new Dictionary<String, IList<IReturnTransformer>>();
+        private readonly IDomainEventManager manager = null;
 
-        private readonly IDictionary<String, IList<ISubscriber>> DOMAIN_EVENTS = new Dictionary<String, IList<ISubscriber>>();
+        public BaseApplication(IDomainEventManager manager)
+        {
+            this.manager = manager;
+        }
 
         public BaseApplication()
         {
-            this.RegisterReturnTransformer();
-            this.RegisterDomainEvents();
+            manager = new TaskDomainEventManager();
         }
-
-        public virtual void RegisterReturnTransformer() { }
-        public virtual void RegisterDomainEvents() { }
 
         public virtual void RegisterReturnTransformer(string name, IReturnTransformer transformer)
         {
@@ -42,26 +42,12 @@ namespace Easy.Domain.Application
         /// <param name="item"></param>
         public virtual void RegisterDomainEvent(string name, ISubscriber item)
         {
-            if (this.DOMAIN_EVENTS.ContainsKey(name))
-            {
-                this.DOMAIN_EVENTS[name].Add(item);
-            }
-            else
-            {
-                var list = new List<ISubscriber>();
-                list.Add(item);
-                this.DOMAIN_EVENTS.Add(name, list);
-            }
+            this.manager.RegisterSubscriber(name, item);
         }
         private IList<IReturnTransformer> GetTransformer(string name)
         {
             return this.TRANSFORMER[name];
         }
-        private IList<ISubscriber> GetDomainEvents(string name)
-        {
-            return this.DOMAIN_EVENTS[name];
-        }
-
         /// <summary>
         /// 写返回值
         /// </summary>
@@ -87,7 +73,7 @@ namespace Easy.Domain.Application
         {
             try
             {
-                this.PublishEvent<EventDATA>(mName, eventData);
+                this.manager.PublishEvent<EventDATA>(mName, eventData);
             }
             catch { }
             return this.Write<T>(mName, obj);
@@ -100,13 +86,7 @@ namespace Easy.Domain.Application
         /// <param name="obj"></param>
         protected virtual void PublishEvent<T>(String mName, T obj) where T : IDomainEvent
         {
-            var domainEvents = this.GetDomainEvents(mName);
-            var domainEventPublisher = new DomainEventPublisher();
-            foreach (var @event in domainEvents)
-            {
-                domainEventPublisher.Subscribe(@event as IDomainEventSubscriber<T>);
-            }
-            domainEventPublisher.Publish(obj);
+            this.manager.PublishEvent<T>(mName, obj);
         }
     }
 }
