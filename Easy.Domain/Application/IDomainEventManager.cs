@@ -9,6 +9,7 @@ namespace Easy.Domain.Application
 {
     public interface IDomainEventManager
     {
+        void RegisterDomainEvent(IList<Type> domainEventTypes);
         void RegisterSubscriber(string name, ISubscriber item);
         void PublishEvent<T>(string name, T obj) where T : IDomainEvent;
     }

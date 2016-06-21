@@ -18,10 +18,12 @@ namespace Easy.Domain.Application
         private static ApplicationFactory factory;
         private static IReturnTransformerLoader returnTransfomerLoader;
         private static IDomainEventSubscriberLoader domainEventSubscriberLoader;
-        private ApplicationFactory(IReturnTransformerLoader loader = null, IDomainEventSubscriberLoader loader2 = null)
+        private static IDomainEventLoader domainEventLoader;
+        private ApplicationFactory(IReturnTransformerLoader loader = null, IDomainEventSubscriberLoader loader2 = null, IDomainEventLoader loader3 = null)
         {
-            ApplicationFactory.returnTransfomerLoader = loader ?? new DefaultReturnTransformerLoader();
-            ApplicationFactory.domainEventSubscriberLoader = loader2 ?? new DefaultDomainEventSubscriberLoader();
+            returnTransfomerLoader = loader ?? new DefaultReturnTransformerLoader();
+            domainEventSubscriberLoader = loader2 ?? new DefaultDomainEventSubscriberLoader();
+            domainEventLoader = loader3 ?? new DefaultDomainEventLoader();
         }
 
         public static ApplicationFactory Instance(IReturnTransformerLoader loader = null)
@@ -46,6 +48,7 @@ namespace Easy.Domain.Application
         {
             BaseApplication baseApplication = application as BaseApplication;
             this.RegisterReturnTransformer(baseApplication);
+            this.RegisterDomainEvents(baseApplication);
             this.RegisterDomainEventSubscriber(baseApplication);
             applicationService.Add(application.GetType().FullName.ToUpper(), application);
         }
@@ -66,7 +69,7 @@ namespace Easy.Domain.Application
             {
                 foreach (var item in keypair.Value)
                 {
-                    application.RegisterDomainEvent(keypair.Key, item);
+                    application.RegisterSubscriber(keypair.Key, item);
                 }
             }
         }
@@ -80,6 +83,12 @@ namespace Easy.Domain.Application
                     baseApplication.RegisterReturnTransformer(keypair.Key, item);
                 }
             }
+        }
+        private void RegisterDomainEvents(BaseApplication baseApplcation)
+        {
+            var types = domainEventLoader.Load(baseApplcation);
+
+            baseApplcation.RegisterDomainEvent(types);
         }
         /// <summary>
         /// 获得应用服务

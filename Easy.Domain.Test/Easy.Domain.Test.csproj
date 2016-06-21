@@ -31,6 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Apache.NMS, Version=1.7.1.3894, Culture=neutral, PublicKeyToken=82756feee3957618, processorArchitecture=MSIL">
+      <HintPath>..\packages\Apache.NMS.1.7.1\lib\net40\Apache.NMS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Apache.NMS.ActiveMQ, Version=1.7.1.3924, Culture=neutral, PublicKeyToken=82756feee3957618, processorArchitecture=MSIL">
+      <HintPath>..\packages\Apache.NMS.ActiveMQ.1.7.1\lib\net40\Apache.NMS.ActiveMQ.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.core, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnitTestAdapter.WithFramework.2.0.0\lib\nunit.core.dll</HintPath>
       <Private>False</Private>
@@ -60,6 +72,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application2\DemoApplication.cs" />
+    <Compile Include="Application2\DemoApplicationTest.cs" />
+    <Compile Include="Application2\Demo\AddDomainEvents\AddDomainEvent.cs" />
+    <Compile Include="Application2\Demo\AddDomainEvents\SendEmailSubscriber.cs" />
     <Compile Include="Application\ApplicationFactoryBuilderTest.cs" />
     <Compile Include="Application\ApplicationTest.cs" />
     <Compile Include="Application\Demo.FindByIdDomainEvents\DemoDomainEvent.cs" />
@@ -81,6 +97,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Easy.Domain.ActiveMqDomainEvent\Easy.Domain.ActiveMqDomainEvent.csproj">
+      <Project>{9405dd01-0b84-467e-98f6-8213ad1a16c2}</Project>
+      <Name>Easy.Domain.ActiveMqDomainEvent</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Easy.Domain\Easy.Domain.csproj">
       <Project>{f5ba6681-b1c8-4c26-80af-239cf62c7b9f}</Project>
       <Name>Easy.Domain</Name>

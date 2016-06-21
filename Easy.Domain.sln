@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easy.Domain", "Easy.Domain\Easy.Domain.csproj", "{F5BA6681-B1C8-4C26-80AF-239CF62C7B9F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easy.Domain.Test", "Easy.Domain.Test\Easy.Domain.Test.csproj", "{47C6F684-9F75-464B-9933-57761A58B261}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easy.Domain.ActiveMqDomainEvent", "Easy.Domain.ActiveMqDomainEvent\Easy.Domain.ActiveMqDomainEvent.csproj", "{9405DD01-0B84-467E-98F6-8213AD1A16C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{47C6F684-9F75-464B-9933-57761A58B261}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47C6F684-9F75-464B-9933-57761A58B261}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47C6F684-9F75-464B-9933-57761A58B261}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9405DD01-0B84-467E-98F6-8213AD1A16C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9405DD01-0B84-467E-98F6-8213AD1A16C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9405DD01-0B84-467E-98F6-8213AD1A16C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9405DD01-0B84-467E-98F6-8213AD1A16C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

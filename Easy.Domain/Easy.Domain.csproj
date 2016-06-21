@@ -47,10 +47,12 @@
     <Compile Include="Application\ApplicationFactory.cs" />
     <Compile Include="Application\ApplicationFactoryBuilder.cs" />
     <Compile Include="Application\BaseApplication.cs" />
+    <Compile Include="Application\DefaultDomainEventLoader.cs" />
     <Compile Include="Application\DefaultReturn.cs" />
     <Compile Include="Application\DefaultReturnTransformerLoader.cs" />
     <Compile Include="Application\DefaultDomainEventSubscriberLoader.cs" />
     <Compile Include="Application\IApplication.cs" />
+    <Compile Include="Application\IDomainEventLoader.cs" />
     <Compile Include="Application\IDomainEventManager.cs" />
     <Compile Include="Application\IDomainEventSubscriberLoader.cs" />
     <Compile Include="Application\INewReturnTransformer.cs" />

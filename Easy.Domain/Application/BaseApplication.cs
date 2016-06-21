@@ -21,7 +21,11 @@ namespace Easy.Domain.Application
         {
             manager = new TaskDomainEventManager();
         }
-
+        /// <summary>
+        /// 注册返回值转换器
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="transformer"></param>
         public virtual void RegisterReturnTransformer(string name, IReturnTransformer transformer)
         {
             if (this.TRANSFORMER.ContainsKey(name))
@@ -35,12 +39,22 @@ namespace Easy.Domain.Application
                 this.TRANSFORMER.Add(name, list);
             }
         }
+
         /// <summary>
-        /// 注册领域事件
+        /// 注册事件
+        /// </summary>
+        /// <param name="domainEventTypes"></param>
+        public virtual void RegisterDomainEvent(IList<Type> domainEventTypes)
+        {
+            this.manager.RegisterDomainEvent(domainEventTypes);
+        }
+
+        /// <summary>
+        /// 注册领域事件订阅者
         /// </summary>
         /// <param name="name"></param>
         /// <param name="item"></param>
-        public virtual void RegisterDomainEvent(string name, ISubscriber item)
+        public virtual void RegisterSubscriber(string name, ISubscriber item)
         {
             this.manager.RegisterSubscriber(name, item);
         }

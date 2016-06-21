@@ -40,5 +40,6 @@ namespace Easy.Domain.Application
                 this.DOMAIN_EVENTS.Add(name, list);
             }
         }
+        public void RegisterDomainEvent(IList<Type> domainEventTypes) { }
     }
 }

@@ -9,6 +9,11 @@ namespace Easy.Domain.Test.Application
 {
     public class DemoApplication : BaseApplication
     {
+        public DemoApplication() 
+        {
+
+        }
+
         public IReturn FindById()
         {
             return this.WriteAndPublishDomainEvent("FindById", "data", new Demo.FindByIdDomainEvents.DemoDomainEvent("aa"));

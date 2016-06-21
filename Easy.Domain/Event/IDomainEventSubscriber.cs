@@ -9,7 +9,13 @@ namespace Easy.Domain.Event
 
     public interface ISubscriber
     {
-
+        /// <summary>
+        /// 事件类型
+        /// </summary>
+        Type SuscribedToEventType
+        {
+            get;
+        }
     }
 
     /// <summary>
@@ -22,12 +28,5 @@ namespace Easy.Domain.Event
         /// </summary>
         /// <param name="aDomainEvent"></param>
         void HandleEvent(T aDomainEvent);
-        /// <summary>
-        /// 事件类型
-        /// </summary>
-        Type SuscribedToEventType
-        {
-            get;
-        }
     }
 }
