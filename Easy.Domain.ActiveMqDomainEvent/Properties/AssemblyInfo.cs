@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("Easy.Domain.ActiveMqDomainEvent")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("领域事件的activeMq实现")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Easy.Domain.ActiveMqDomainEvent")]
