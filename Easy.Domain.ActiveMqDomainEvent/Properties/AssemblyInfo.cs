@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Easy.Domain.ActiveMqDomainEvent")]
 [assembly: AssemblyDescription("领域事件的activeMq实现")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("李晓静")]
 [assembly: AssemblyProduct("Easy.Domain.ActiveMqDomainEvent")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
