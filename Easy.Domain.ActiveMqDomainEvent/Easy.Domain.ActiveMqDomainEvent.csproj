@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveMqClientIdHelper.cs" />
     <Compile Include="ActiveMqDomainEventManager.cs" />
     <Compile Include="ActiveMqManager.cs" />
     <Compile Include="IActiveMqDomainEventSubscriber.cs" />

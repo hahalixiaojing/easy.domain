@@ -29,6 +29,7 @@ namespace Easy.Domain.ActiveMqDomainEvent
             {
                 var message = producers[fullname].CreateTextMessage();
                 message.Text = JsonConvert.SerializeObject(obj);
+                message.Properties.SetString("route", this.manager.ClientId);
                 producers[fullname].Send(message, MsgDeliveryMode.Persistent, MsgPriority.Normal, new TimeSpan(0));
             }
         }
@@ -41,14 +42,14 @@ namespace Easy.Domain.ActiveMqDomainEvent
         {
             string fullName = item.SuscribedToEventType.FullName;
 
-            manager.RegisterTopicConsumer(fullName, item.GetType().FullName, (msg) =>
-            {
-                ITextMessage textMsg = msg as ITextMessage;
-                var sub = item as IActiveMqDomainEventSubscriber;
-                sub.HandleEvent(textMsg.Text);
+            manager.RegisterTopicConsumer(fullName, item.GetType().FullName, $"route='{this.manager.ClientId}'", (msg) =>
+             {
+                 ITextMessage textMsg = msg as ITextMessage;
+                 var sub = item as IActiveMqDomainEventSubscriber;
+                 sub.HandleEvent(textMsg.Text);
 
-                msg.Acknowledge();
-            });
+                 msg.Acknowledge();
+             });
         }
         /// <summary>
         /// 注册领域事件

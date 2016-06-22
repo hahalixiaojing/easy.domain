@@ -16,6 +16,7 @@ namespace Easy.Domain.ActiveMqDomainEvent
         readonly Dictionary<string, IMessageConsumer> topicConsumers = new Dictionary<string, IMessageConsumer>();
         public ActiveMqManager(string url, string clientid, string usrname, string password)
         {
+            this.ClientId = clientid;
             IConnectionFactory factory = new NMSConnectionFactory(url);
             if (!string.IsNullOrEmpty(usrname) && !string.IsNullOrEmpty(password))
             {
@@ -25,6 +26,7 @@ namespace Easy.Domain.ActiveMqDomainEvent
             {
                 connection = factory.CreateConnection();
             }
+
             if (!string.IsNullOrEmpty(clientid))
             {
                 connection.ClientId = clientid;
@@ -32,9 +34,14 @@ namespace Easy.Domain.ActiveMqDomainEvent
             session = connection.CreateSession(AcknowledgementMode.ClientAcknowledge);
             connection.Start();
         }
+
         public ActiveMqManager(string url) : this(url, string.Empty, string.Empty, string.Empty) { }
         public ActiveMqManager(string url, string clientId) : this(url, clientId, string.Empty, string.Empty) { }
 
+        public string ClientId
+        {
+            get;private set;
+        }
         public IMessageProducer CreateTopicPublisher(string topicName)
         {
             ITopic topic = SessionUtil.GetTopic(session, topicName);
@@ -52,8 +59,12 @@ namespace Easy.Domain.ActiveMqDomainEvent
 
         public void RegisterTopicConsumer(string topicName, string subscriberName, MessageListener listener)
         {
+            this.RegisterTopicConsumer(topicName, subscriberName, null, listener);
+        }
+        public void RegisterTopicConsumer(string topicName, string subscriberName, string selector, MessageListener listener)
+        {
             ITopic topic = SessionUtil.GetTopic(session, topicName);
-            var consumer = session.CreateDurableConsumer(topic, subscriberName, null, false);
+            var consumer = session.CreateDurableConsumer(topic, subscriberName, selector, false);
             consumer.Listener += listener;
             topicConsumers.Add(subscriberName, consumer);
         }
