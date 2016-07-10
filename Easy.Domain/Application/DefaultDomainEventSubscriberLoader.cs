@@ -29,7 +29,7 @@ namespace Easy.Domain.Application
                 string @namespace = type.Namespace + "." + name + "." + mName + "DomainEvents" + ".";
 
                 var targetTypes = type.Assembly.GetTypes()
-                    .Where(a => a.FullName.Contains(@namespace))
+                    .Where(a => a.FullName.ToUpperInvariant().Contains(@namespace.ToUpperInvariant()))
                     .Where(a => !a.IsAbstract)
                     .Where(a => a.GetInterface("ISubscriber") != null);
 
