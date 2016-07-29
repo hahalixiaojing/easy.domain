@@ -76,6 +76,7 @@
     <Compile Include="Application2\DemoApplicationTest.cs" />
     <Compile Include="Application2\Demo\AddDomainEvents\AddDomainEvent.cs" />
     <Compile Include="Application2\Demo\AddDomainEvents\SendEmailSubscriber.cs" />
+    <Compile Include="Application2\Demo\AddDomainEvents\SendWeChatSubscriber.cs" />
     <Compile Include="Application\ApplicationFactoryBuilderTest.cs" />
     <Compile Include="Application\ApplicationTest.cs" />
     <Compile Include="Application\Demo.FindByIdDomainEvents\DemoDomainEvent.cs" />
