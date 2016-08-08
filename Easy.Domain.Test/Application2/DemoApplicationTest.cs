@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -24,12 +25,18 @@ namespace Easy.Domain.Test.Application2
         public void AddTest()
         {
             int i = 0;
-            while (i<50)
+
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            while (i<5000)
             {
                 ApplicationFactory.Instance().Get<DemoApplication>().Add();
-                Thread.Sleep(1000);
                 i++;
             }
+            sw.Stop();
+
+            System.Diagnostics.Debug.WriteLine(sw.ElapsedMilliseconds);
+
         }
     }
 }

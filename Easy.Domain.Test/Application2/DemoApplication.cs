@@ -12,7 +12,7 @@ namespace Easy.Domain.Test.Application2
 
         public void Add()
         {
-            this.PublishEvent(nameof(DemoApplication.Add), new AddDomainEvent("text email"));
+            this.PublishEvent(nameof(DemoApplication.Add), new AddDomainEvent("text email text email text email"));
         }
     }
 }

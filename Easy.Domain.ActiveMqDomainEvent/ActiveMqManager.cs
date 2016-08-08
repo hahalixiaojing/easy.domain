@@ -11,7 +11,7 @@ namespace Easy.Domain.ActiveMqDomainEvent
     public class ActiveMqManager
     {
         readonly IConnection connection;
-        readonly ISession session;
+        readonly IList<ISession> sessions = new List<ISession>();
         readonly IList<IMessageConsumer> queueConsumers = new List<IMessageConsumer>();
         readonly Dictionary<string, IMessageConsumer> topicConsumers = new Dictionary<string, IMessageConsumer>();
         public ActiveMqManager(string url, string clientid, string usrname, string password)
@@ -31,7 +31,11 @@ namespace Easy.Domain.ActiveMqDomainEvent
             {
                 connection.ClientId = clientid;
             }
-            session = connection.CreateSession(AcknowledgementMode.ClientAcknowledge);
+            for (var i = 0; i < 10; i++)
+            {
+                var session = connection.CreateSession(AcknowledgementMode.ClientAcknowledge);
+                sessions.Add(session);
+            }
             connection.Start();
         }
 
@@ -42,17 +46,23 @@ namespace Easy.Domain.ActiveMqDomainEvent
         {
             get;private set;
         }
+
+        private ISession GetSession()
+        {
+            return this.sessions[(int)(DateTime.Now.Ticks % 10)];
+        }
+
         public IMessageProducer CreateTopicPublisher(string topicName)
         {
-            ITopic topic = SessionUtil.GetTopic(session, topicName);
-            var producer = session.CreateProducer(topic);
+            ITopic topic = SessionUtil.GetTopic(GetSession(), topicName);
+            var producer = GetSession().CreateProducer(topic);
             return producer;
         }
 
         public IMessageProducer CreateQueueProducer(string queueName)
         {
-            IDestination destination = SessionUtil.GetQueue(session, queueName);
-            var producer = session.CreateProducer(destination);
+            IDestination destination = SessionUtil.GetQueue(GetSession(), queueName);
+            var producer = GetSession().CreateProducer(destination);
             return producer;
         }
 
@@ -63,19 +73,21 @@ namespace Easy.Domain.ActiveMqDomainEvent
         }
         public void RegisterTopicConsumer(string topicName, string subscriberName, string selector, MessageListener listener)
         {
-            ITopic topic = SessionUtil.GetTopic(session, topicName);
-            var consumer = session.CreateDurableConsumer(topic, subscriberName, selector, false);
+            ISession consumserSession = connection.CreateSession(AcknowledgementMode.ClientAcknowledge);
+            ITopic topic = SessionUtil.GetTopic(consumserSession, topicName);
+            var consumer = consumserSession.CreateDurableConsumer(topic, subscriberName, selector, false);
             consumer.Listener += listener;
             topicConsumers.Add(subscriberName, consumer);
         }
         public void RegisterQueueConsumer(string name, int consumerCount, MessageListener listener)
         {
-            IDestination destination = session.GetDestination($"queue://{name}");
+            ISession consumserSession = connection.CreateSession(AcknowledgementMode.ClientAcknowledge);
+            IDestination destination = consumserSession.GetDestination($"queue://{name}");
 
             int actualcount = consumerCount == 0 ? 1 : consumerCount;
             for (var i = 0; i < actualcount; i++)
             {
-                IMessageConsumer consumer = session.CreateConsumer(destination);
+                IMessageConsumer consumer = consumserSession.CreateConsumer(destination);
                 consumer.Listener += listener;
                 queueConsumers.Add(consumer);
             }
