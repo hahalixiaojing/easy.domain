@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Moq;
+using Easy.Domain.Event;
 
 namespace Easy.Domain.Test.ApplicationTest
 {
@@ -20,8 +21,11 @@ namespace Easy.Domain.Test.ApplicationTest
 
             mock.Setup<IReturn>(m => m.Write<String>(It.IsAny<string>(), It.IsAny<string>())).Returns(() => { return null; });
 
+            mock.Setup(m => m.PublishEvent(It.IsAny<string>(), It.IsAny<IDomainEvent>()));
+
 
             mock.Object.TestDemo();
+            mock.Object.PublishTest();
         }
     }
 }

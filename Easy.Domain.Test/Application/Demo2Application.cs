@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Easy.Domain.Application;
+using Easy.Domain.Event;
 
 namespace Easy.Domain.Test.Application
 {
@@ -24,6 +25,24 @@ namespace Easy.Domain.Test.Application
         public IReturn TestDefaultValue()
         {
             return this.Write(nameof(TestDefaultValue), "defaultvalue");
+        }
+
+        public void PublishTest()
+        {
+            System.Diagnostics.Debug.WriteLine("测试里面的值");
+
+            this.PublishEvent(nameof(PublishTest), new Evt());
+        }
+    }
+
+    public class Evt : IDomainEvent
+    {
+        public DateTime OccurredOn
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

@@ -74,6 +74,7 @@
     <Compile Include="Base\IAggregateRoot.cs" />
     <Compile Include="Base\IEntity.cs" />
     <Compile Include="Base\ConcurrentEntityBase.cs" />
+    <Compile Include="Event\BaseDomainEvent.cs" />
     <Compile Include="Event\DomainEventPublisher.cs" />
     <Compile Include="Event\IDomainEventSubscriber.cs" />
     <Compile Include="Event\IDomainEvent.cs" />
