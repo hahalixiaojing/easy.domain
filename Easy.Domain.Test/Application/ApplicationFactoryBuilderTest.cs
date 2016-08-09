@@ -22,6 +22,8 @@ namespace Easy.Domain.Test.Application
 
 
             String value = factory.GetByInterface<IDemo2Service>().TestDefaultValue().ResultDefault<string>();
+
+            Assert.AreEqual("defaultvalue", value);
           
         }
     }
