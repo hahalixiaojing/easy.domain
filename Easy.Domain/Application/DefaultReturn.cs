@@ -11,7 +11,7 @@ namespace Easy.Domain.Application
         private readonly T obj;
         private readonly IList<IReturnTransformer> transformer;
         private static readonly NotFoundReturnTransformer notFound = new NotFoundReturnTransformer();
-
+        private static readonly DefaultReturnTransformer @default = new DefaultReturnTransformer();
         public DefaultReturn(T obj, IList<IReturnTransformer> transformers)
         {
             this.obj = obj;
@@ -28,14 +28,9 @@ namespace Easy.Domain.Application
             return value.GetValue(context, this.obj);
         }
 
-        public INewReturnTransformer<RESULT> GetReturnTransformer<RESULT>(ReturnContext context)
+        public R ResultDefault<R>()
         {
-            return transformer.FirstOrDefault(m => m.IsMapped(context)) as INewReturnTransformer<RESULT>;
-        }
-
-        public RESULT Result<RESULT>(INewReturnTransformer<RESULT> transformer, IReturn @return)
-        {
-            return transformer.GetValue(null, (@return as DefaultReturn<T>).obj);
+            return @default.GetValue(null, obj);
         }
     }
 }

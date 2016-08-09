@@ -9,8 +9,6 @@ namespace Easy.Domain.Application
     public interface IReturn
     {
         dynamic Result(ReturnContext context);
-        INewReturnTransformer<RET> GetReturnTransformer<RET>(ReturnContext context);
-        RESULT Result<RESULT>(INewReturnTransformer<RESULT> transformer, IReturn @return);
-
+        R ResultDefault<R>();
     }
 }

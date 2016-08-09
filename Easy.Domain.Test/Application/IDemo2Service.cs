@@ -10,5 +10,7 @@ namespace Easy.Domain.Test.Application
     public interface IDemo2Service
     {
         IReturn Select();
+        IReturn TestDemo();
+        IReturn TestDefaultValue();
     }
 }

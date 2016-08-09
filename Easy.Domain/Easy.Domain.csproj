@@ -36,6 +36,7 @@
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -49,6 +50,7 @@
     <Compile Include="Application\BaseApplication.cs" />
     <Compile Include="Application\DefaultDomainEventLoader.cs" />
     <Compile Include="Application\DefaultReturn.cs" />
+    <Compile Include="Application\DefaultReturnTransformer.cs" />
     <Compile Include="Application\DefaultReturnTransformerLoader.cs" />
     <Compile Include="Application\DefaultDomainEventSubscriberLoader.cs" />
     <Compile Include="Application\IApplication.cs" />

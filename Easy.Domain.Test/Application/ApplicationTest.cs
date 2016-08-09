@@ -6,29 +6,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
+
 namespace Easy.Domain.Test.ApplicationTest
 {
     public class ApplicationTest
     {
-        [NUnit.Framework.Test]
-        public void GetReturnTransformerTest()
+     
+        [Test]
+        public void DemoTest()
         {
-            ApplicationFactory.Instance().Register(new DemoApplication());
+            var mock = new Moq.Mock<Demo2Application>();
 
-            IReturn result = ApplicationFactory.Instance().Get<DemoApplication>().FindById();
+            mock.Setup<IReturn>(m => m.Write<String>(It.IsAny<string>(), It.IsAny<string>())).Returns(() => { return null; });
 
-            var transformer1 = result.GetReturnTransformer<DemoModel1>(new ReturnContext() { SystemId = "demo1" });
 
-            DemoModel1 demoModel1 = result.Result(transformer1, result);
-
-            Assert.AreEqual(typeof(DemoModel1), demoModel1.GetType());
-
-            var transformer2 = result.GetReturnTransformer<DemoModel2>(new ReturnContext() { SystemId = "demo2" });
-
-            DemoModel2 demoModel2 = result.Result(transformer2, result);
-
-            Assert.AreEqual(typeof(DemoModel2), demoModel2.GetType());
-
+            mock.Object.TestDemo();
         }
     }
 }

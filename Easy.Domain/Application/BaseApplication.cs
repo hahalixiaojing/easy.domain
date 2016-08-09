@@ -60,7 +60,11 @@ namespace Easy.Domain.Application
         }
         private IList<IReturnTransformer> GetTransformer(string name)
         {
-            return this.TRANSFORMER[name];
+            if (this.TRANSFORMER.ContainsKey(name))
+            {
+                return this.TRANSFORMER[name];
+            }
+            return new IReturnTransformer[0];
         }
         /// <summary>
         /// 写返回值
@@ -69,7 +73,7 @@ namespace Easy.Domain.Application
         /// <param name="mName">方法名称</param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        protected virtual IReturn Write<T>(String mName, T obj)
+        public virtual IReturn Write<T>(String mName, T obj)
         {
             DefaultReturn<T> @return = new DefaultReturn<T>(obj, this.GetTransformer(mName));
             return @return;
@@ -83,7 +87,7 @@ namespace Easy.Domain.Application
         /// <param name="obj"></param>
         /// <param name="eventData"></param>
         /// <returns></returns>
-        protected virtual IReturn WriteAndPublishDomainEvent<T, EventDATA>(string mName, T obj, EventDATA eventData) where EventDATA : IDomainEvent
+        public virtual IReturn WriteAndPublishDomainEvent<T, EventDATA>(string mName, T obj, EventDATA eventData) where EventDATA : IDomainEvent
         {
             try
             {
@@ -98,7 +102,7 @@ namespace Easy.Domain.Application
         /// <typeparam name="T">事件数据类型</typeparam>
         /// <param name="mName"></param>
         /// <param name="obj"></param>
-        protected virtual void PublishEvent<T>(String mName, T obj) where T : IDomainEvent
+        public virtual void PublishEvent<T>(String mName, T obj) where T : IDomainEvent
         {
             this.manager.PublishEvent<T>(mName, obj);
         }

@@ -20,12 +20,9 @@ namespace Easy.Domain.Test.Application
 
             ApplicationFactory factory = builder.Build(new FileInfo(file));
 
-            var @result = factory.GetByInterface<IDemo2Service>().Select();
 
-            var returnTransformer = @result.GetReturnTransformer<string>(new ReturnContext());
-
-            string value = @result.Result(returnTransformer, @result);
-            Assert.AreEqual("abc", value);
+            String value = factory.GetByInterface<IDemo2Service>().TestDefaultValue().ResultDefault<string>();
+          
         }
     }
 }

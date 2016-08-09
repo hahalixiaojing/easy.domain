@@ -13,5 +13,17 @@ namespace Easy.Domain.Test.Application
         {
             return this.Write("Select", "abc");
         }
+
+        public IReturn TestDemo()
+        {
+            System.Diagnostics.Debug.WriteLine("测试里面的值");
+
+            return this.Write(nameof(TestDemo), "aaaaa");
+        }
+
+        public IReturn TestDefaultValue()
+        {
+            return this.Write(nameof(TestDefaultValue), "defaultvalue");
+        }
     }
 }
